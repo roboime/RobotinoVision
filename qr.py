@@ -1,8 +1,10 @@
+#https://www.learnopencv.com/barcode-and-qr-code-scanner-using-zbar-and-opencv/
+
 from __future__ import print_function
 import pyzbar.pyzbar as pyzbar
 import numpy as np
 import cv2
- 
+
 def decode(im) : 
   # Find QR code
   decodedObjects = pyzbar.decode(im)
