@@ -9,40 +9,6 @@ def nothing(x):
 
 #Main
 if __name__ == '__main__':
-
-	#Definicao das cores
-	lowerBound=np.array([50,100,100])
-	upperBound=np.array([70,255,255])
-
-	#Create font to print on screen
-	font = cv2.FONT_HERSHEY_SIMPLEX
-
-	#Choose foto and resize
-	img = cv2.imread('valvulaFechada1.jpeg')
-	#img = cv2.resize(imgBig, (340,220))
-
-	#Convert image to HSV format
-	imgHSV= cv2.cvtColor(img,cv2.COLOR_BGR2HSV)
-
-	#Create a mask for the desired color
-	mask = cv2.inRange(imgHSV,lowerBound,upperBound)
-
-	#Control the random dots that appear in the mask
-	kernelOpen = np.ones((5,5))
-	kernelClose = np.ones((20,20))
-	maskOpen = cv2.morphologyEx(mask,cv2.MORPH_OPEN,kernelOpen)
-	maskClose = cv2.morphologyEx(maskOpen,cv2.MORPH_CLOSE,kernelClose)
-
-	#Pick the mask with the least amount of noise and find the contours of the object
-	_, conts, h = cv2.findContours(maskClose.copy(),cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_NONE)
-	cv2.drawContours(img,conts,-1,(255,0,0),3)
-
-	#Pick the biggest rectangle 
-	for i in range(len(conts)):
-		x,y,w,h = cv2.boundingRect(conts[i])
-		cv2.rectangle(img,(x,y),(x+w,y+h),(0,0,255), 2)
-		cv2.putText(img, str(i+1),(x,y+h),font,2,255)
-
 	# named ites for easy reference
 	barsWindow = 'Bars'
 	hl = 'H Low'
@@ -72,7 +38,7 @@ if __name__ == '__main__':
 	cv2.setTrackbarPos(vh, barsWindow, 255)
 
 	while(True):
-		frame = cv2.imread('valvulaFechada1.jpeg')
+		frame = cv2.imread('painel4.jpeg')
 		frame = cv2.GaussianBlur(frame, (5, 5), 0)
     
     	# convert to HSV from BGR

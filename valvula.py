@@ -18,7 +18,7 @@ if __name__ == '__main__':
 	font = cv2.FONT_HERSHEY_SIMPLEX
 
 	#Choose foto and resize
-	img = cv2.imread('valvulaAberta1.jpeg')
+	img = cv2.imread('valvulaAberta2.jpeg')
 	#img = cv2.resize(imgBig, (340,220))
 
 	#Convert image to HSV format

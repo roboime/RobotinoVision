@@ -18,7 +18,6 @@ def decode(im) :
   return decodedObjects
  
  
-   
 # Main 
 if __name__ == '__main__':
  
