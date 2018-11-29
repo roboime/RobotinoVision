@@ -72,6 +72,17 @@ if __name__ == '__main__':
 
 	while(1):
 
+			#CORES
+			#Green
+			lowerBoundGreen=np.array([67,95,20])
+			upperBoundGreen=np.array([117,255,162])
+			#Red
+			lowerBoundRed=np.array([0,142,16])
+			upperBoundRed=np.array([63, 225, 225])
+			#Grey
+			lowerBoundGrey = np.array([0,0,0])
+			upperBoundGrey = np.array([179,255,152])
+
 			#Pegar imagem e mostrar estado:
 			imgName = "image_" + str(stateImage) + ".jpeg"
 			img = cv2.imread(imgName)
@@ -95,12 +106,8 @@ if __name__ == '__main__':
 			if(stateAI == "V"):
 				print("Procurando a valvula")
 
-				#Color grey definition
-				lowerBound = np.array([0,0,0])
-				upperBound = np.array([70,98,77])
-
 				#Find contours
-				contours = findColor(lowerBound, upperBound)
+				contours = findColor(lowerBoundGrey, upperBoundGrey)
 
 				if(len(contours) == 0):
 					print("Não achou a valvula")
@@ -130,17 +137,9 @@ if __name__ == '__main__':
 			if(stateAI == 'P'):
 				print("Procurando painel")
 
-				#Define green
-				lowerBoundGreen=np.array([41,0,214])
-				upperBoundGreen=np.array([95,225,255])
-
-				#Define red
-				lowerBoundRed=np.array([0,52,223])
-				upperBoundRed=np.array([65,251,255])
-
 				arrayTotal = []
-				contsGreen = findButtons(lowerBoundGreen, upperBoundGreen, img, arrayTotal, "L")
-				contsRed = findButtons(lowerBoundRed, upperBoundRed, img, arrayTotal, "D")
+				contsGreen = findButtons(lowerBoundGreen, upperBoundGreen, img, arrayTotal, "D")
+				contsRed = findButtons(lowerBoundRed, upperBoundRed, img, arrayTotal, "L")
 
 				if(len(contsGreen) == 0 and len(contsRed) == 0):
 					print("Nao achou o painel")

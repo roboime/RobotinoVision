@@ -13,14 +13,14 @@ if __name__ == '__main__':
 	#Definicao das cores
 	#lowerBound=np.array([0,0,0])
 	#upperBound=np.array([70,98,77])
-	lowerBound=np.array([41,0,214])
-	upperBound=np.array([95,225,255])
+	lowerBound = np.array([0,0,0])
+	upperBound = np.array([179,255,152])
 
 	#Create font to print on screen
 	font = cv2.FONT_HERSHEY_SIMPLEX
 
 	#Choose foto and resize
-	img = cv2.imread('painel1.jpeg')
+	img = cv2.imread('valvula6.jpeg')
 	#img = cv2.resize(imgBig, (340,220))
 
 	#Convert image to HSV format
