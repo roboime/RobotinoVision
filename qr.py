@@ -22,6 +22,6 @@ def decode(im) :
 if __name__ == '__main__':
  
   # Read image
-  im = cv2.imread('qr-imageValvula.jpg')
+  im = cv2.imread('image.jpeg')
  
   decodedObjects = decode(im)
