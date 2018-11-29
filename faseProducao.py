@@ -10,15 +10,14 @@ def decode(im) :
   return decodedObjects
 
 #Print in file
-def prin(st, state) :
-	if(state == "Q"):
+def prin(st, stateAI) :
+	if(stateAI == "Q"):
 		file.write("QR: ")
-	if(state == "V"):
+	if(stateAI == "V"):
 		file.write("V: ")
 	file.write(st)
 	file.write("\n")
 	return
-
 
 
 #Find the contours of selected color
@@ -36,7 +35,7 @@ def findColor(lowerBound, upperBound):
 #Main
 if __name__ == '__main__':
 
-	state = "V"
+	stateAI = "V"
 	nextState = "V"
 	file = open("RoboIME.txt", "w")
 	#cam = cv2.VideoCapture(0)
@@ -52,21 +51,21 @@ if __name__ == '__main__':
 
 			#Pegar imagem e mostrar estado:
 			img = cv2.imread("image.jpg")
-			print(state)
+			print(stateAI)
 
 			#Ler QRCode e definir proximo estado
-			if(state == 'Q'):
+			if(stateAI == 'Q'):
 				qrCodes = decode(img)
 				if(len(qrCodes) == 0):
 					print("Nao achou QRCode\n")
 					continue
 				qr = qrCodes[0]
 				data = qr.data.decode("utf-8")
-				prin(data, state)
+				prin(data, stateAI)
 				nextState = data[0]
 
 			#Valvula
-			if(state == "V"):
+			if(stateAI == "V"):
 				#Color grey definition
 				lowerBound = np.array([0,0,0])
 				upperBound = np.array([70,98,77])
@@ -86,17 +85,17 @@ if __name__ == '__main__':
 
 				#Define if valvula is open or not e definir proximo estado
 				if(h/w > 1.3):
-					prin("A", state)
+					prin("A", stateAI)
 				else:
-					prin("F", state)
+					prin("F", stateAI)
 				nextState = 'Q'
 
 			
 			#Parte final para todo caso(trocar de estado e comunicar com o robo)
-			if(state != nextState):
-				state = nextState
-				if(state != 'Q' or state != 'V'):
-					state = 'Q'
+			if(stateAI != nextState):
+				stateAI = nextState
+				if(stateAI != 'Q' or stateAI != 'V'):
+					stateAI = 'Q'
 					nextState = "Q"
 
 		else:
