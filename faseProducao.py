@@ -37,13 +37,14 @@ if __name__ == '__main__':
 	stateAI = "Q"
 	nextState = "Q"
 	stateImage = 0
+	tries = 0
 	file = open("RoboIME.txt", "w")
 	#cam = cv2.VideoCapture(0)
 
 	while(1):
 
 			#Pegar imagem e mostrar estado:
-			imgName = "image_" + str(stateImage) + ".jpg"
+			imgName = "image_" + str(stateImage) + ".jpeg"
 			img = cv2.imread(imgName)
 			print(stateAI)
 
@@ -52,6 +53,7 @@ if __name__ == '__main__':
 				print("Procurando QRCode")
 				qrCodes = decode(img)
 				if(len(qrCodes) == 0):
+					tries += 1
 					print("Nao achou QRCode\n")
 					continue
 				qr = qrCodes[0]
@@ -67,11 +69,13 @@ if __name__ == '__main__':
 				#Color grey definition
 				lowerBound = np.array([0,0,0])
 				upperBound = np.array([70,98,77])
+
 				#Find contours
 				contours = findColor(lowerBound, upperBound)
 
 				if(len(contours) == 0):
 					print("Não achou a valvula")
+					tries += 1
 					continue
 				print("Achou a valvula")
 
@@ -95,7 +99,10 @@ if __name__ == '__main__':
 
 			
 			#Parte final para todo caso(trocar de estado e comunicar com o robo)
+			if(tries > 100):
+				return 0
 			if(stateAI != nextState):
+				tries = 0
 				stateAI = nextState
 				stateImage += 1
 				if(stateAI != 'Q' and stateAI != 'V'):
