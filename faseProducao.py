@@ -36,20 +36,15 @@ if __name__ == '__main__':
 
 	stateAI = "Q"
 	nextState = "Q"
+	stateImage = 0
 	file = open("RoboIME.txt", "w")
 	#cam = cv2.VideoCapture(0)
 
 	while(1):
 
-		status = input()
-		#ret, img = cam.read()
-		#cv2.imshow("cam", img)
-
-		#Loop de estados
-		if(status == ' '):
-
 			#Pegar imagem e mostrar estado:
-			img = cv2.imread("image.jpeg")
+			imgName = "image_" + str(stateImage) + ".jpg"
+			img = cv2.imread(imgName)
 			print(stateAI)
 
 			#Ler QRCode e definir proximo estado
@@ -102,9 +97,7 @@ if __name__ == '__main__':
 			#Parte final para todo caso(trocar de estado e comunicar com o robo)
 			if(stateAI != nextState):
 				stateAI = nextState
+				stateImage += 1
 				if(stateAI != 'Q' and stateAI != 'V'):
 					stateAI = 'Q'
 					nextState = "Q"
-
-		else:
-			sys.exit()
