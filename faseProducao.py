@@ -27,7 +27,7 @@ def findButtons(lowerBound, upperBound, img, arrayTotal, str):
 
 	for i in range(len(conts)):
 		x,y,w,h = cv2.boundingRect(conts[i])
-		if(w/h > 0.8 and w/h < 1.2):
+		if(w/h > 0.7 and w/h < 1.3):
 			cv2.rectangle(img,(x,y),(x+w,y+h),(0,0,255), 2)
 			newConts.append(conts[i])
 			arrayTotal.append([x, str])
@@ -74,14 +74,14 @@ if __name__ == '__main__':
 
 			#CORES
 			#Green
-			lowerBoundGreen=np.array([67,95,20])
-			upperBoundGreen=np.array([117,255,162])
+			lowerBoundGreen=np.array([95,91,0])
+			upperBoundGreen=np.array([118,255,154])
 			#Red
-			lowerBoundRed=np.array([0,142,16])
-			upperBoundRed=np.array([63, 225, 225])
+			lowerBoundRed=np.array([0,153,204])
+			upperBoundRed=np.array([179,235,255])
 			#Grey
 			lowerBoundGrey = np.array([0,0,0])
-			upperBoundGrey = np.array([179,255,152])
+			upperBoundGrey = np.array([179,255,132])
 
 			#Pegar imagem e mostrar estado:
 			imgName = "image_" + str(stateImage) + ".jpeg"

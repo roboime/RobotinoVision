@@ -13,14 +13,14 @@ if __name__ == '__main__':
 	#Definicao das cores
 	#lowerBound=np.array([0,0,0])
 	#upperBound=np.array([70,98,77])
-	lowerBound = np.array([0,0,0])
-	upperBound = np.array([179,255,152])
+	lowerBound = np.array([95,91,0])
+	upperBound = np.array([118,255,154])
 
 	#Create font to print on screen
 	font = cv2.FONT_HERSHEY_SIMPLEX
 
 	#Choose foto and resize
-	img = cv2.imread('valvula6.jpeg')
+	img = cv2.imread('image_3.jpeg')
 	#img = cv2.resize(imgBig, (340,220))
 
 	#Convert image to HSV format
@@ -43,16 +43,18 @@ if __name__ == '__main__':
 	area = 0.0
 	for i in range(len(conts)):
 		x,y,w,h = cv2.boundingRect(conts[i])
+		cv2.drawContours(img,conts[i],-1,(255,0,0),3)
+		cv2.rectangle(img,(x,y),(x+w,y+h),(0,0,255), 2)
 		if(area < w*h):
 			rect = conts[i]
 			area = w*h
 
-	x,y,w,h = cv2.boundingRect(rect)
-	cv2.drawContours(img,rect,-1,(255,0,0),3)
-	cv2.rectangle(img,(x,y),(x+w,y+h),(0,0,255), 2)
+	#x,y,w,h = cv2.boundingRect(rect)
+	#cv2.drawContours(img,rect,-1,(255,0,0),3)
+	#cv2.rectangle(img,(x,y),(x+w,y+h),(0,0,255), 2)
 	if(h/w > 1.3):
 		print("Aberto")
 	else:
 		print("Fechado")
-	cv2.imshow("image", img)
+	cv2.imshow("image_1", img)
 	cv2.waitKey(0)

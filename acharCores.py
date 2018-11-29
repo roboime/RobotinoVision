@@ -38,7 +38,7 @@ if __name__ == '__main__':
 	cv2.setTrackbarPos(vh, barsWindow, 255)
 
 	while(True):
-		frame = cv2.imread('valvula6.jpeg')
+		frame = cv2.imread('image_3.jpeg')
 		frame = cv2.GaussianBlur(frame, (5, 5), 0)
     
     	# convert to HSV from BGR

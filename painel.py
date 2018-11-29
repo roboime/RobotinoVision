@@ -21,7 +21,7 @@ def findButtons(lowerBound, upperBound, img, arrayTotal, str):
 
 	for i in range(len(conts)):
 		x,y,w,h = cv2.boundingRect(conts[i])
-		if(w/h > 0.8 and w/h < 1.2):
+		if(w/h > 0.7 and w/h < 1.3):
 			cv2.rectangle(img,(x,y),(x+w,y+h),(0,0,255), 2)
 			newConts.append(conts[i])
 			arrayTotal.append([x, str])
@@ -53,20 +53,20 @@ def findInArray(value, contArray, str):
 
 #Main
 if __name__ == '__main__':
-	imgName = "painel4.jpeg"
+	imgName = "image_3.jpeg"
 	img = cv2.imread(imgName)
 
 	#Define green
-	lowerBoundGreen=np.array([41,0,214])
-	upperBoundGreen=np.array([95,225,255])
+	lowerBoundGreen=np.array([95,91,0])
+	upperBoundGreen=np.array([118,255,154])
 
 	#Define red
-	lowerBoundRed=np.array([0,52,223])
-	upperBoundRed=np.array([65,251,255])
+	lowerBoundRed=np.array([0,153,204])
+	upperBoundRed=np.array([179,235,255])
 
 	arrayTotal = []
-	contsGreen = findButtons(lowerBoundGreen, upperBoundGreen, img, arrayTotal, "L")
-	contsRed = findButtons(lowerBoundRed, upperBoundRed, img, arrayTotal, "D")
+	contsGreen = findButtons(lowerBoundGreen, upperBoundGreen, img, arrayTotal, "D")
+	contsRed = findButtons(lowerBoundRed, upperBoundRed, img, arrayTotal, "L")
 
 	result = findAll(arrayTotal)
 	print(result)
