@@ -21,12 +21,41 @@ def findColor(lowerBound, upperBound):
 	_, conts, h = cv2.findContours(maskClose.copy(),cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_NONE)
 	return conts
 
+def findButtons(lowerBound, upperBound, img, arrayTotal, str):
+	conts = findColor(lowerBound, upperBound)
+	newConts = []
+
+	for i in range(len(conts)):
+		x,y,w,h = cv2.boundingRect(conts[i])
+		if(w/h > 0.8 and w/h < 1.2):
+			cv2.rectangle(img,(x,y),(x+w,y+h),(0,0,255), 2)
+			newConts.append(conts[i])
+			arrayTotal.append([x, str])
+
+	return newConts
+
+def findAll(arrayTotal):
+	bubbleSort(arrayTotal)
+	result = ""
+	for i in range(len(arrayTotal)):
+		result = result + arrayTotal[i][1]
+	return result
+
+def bubbleSort(arr):
+	n = len(arr)
+	for i in range(n):
+		for j in range(0, n-i-1):
+			if arr[j][0] > arr[j+1][0] :
+				arr[j], arr[j+1] = arr[j+1], arr[j]
+
 #Print in file
 def prin(st, state, file) :
 	if(state == "Q"):
 		file.write("QR: ")
 	if(state == "V"):
 		file.write("V: ")
+	if(state == "P"):
+		file.write("P: ")
 	file.write(st)
 	file.write("\n")
 	return
@@ -53,7 +82,7 @@ if __name__ == '__main__':
 				print("Procurando QRCode")
 				qrCodes = decode(img)
 				if(len(qrCodes) == 0):
-					tries += 1
+					tries  = tries + 1
 					print("Nao achou QRCode\n")
 					continue
 				qr = qrCodes[0]
@@ -75,7 +104,7 @@ if __name__ == '__main__':
 
 				if(len(contours) == 0):
 					print("Não achou a valvula")
-					tries += 1
+					tries = tries + 1
 					continue
 				print("Achou a valvula")
 
@@ -97,14 +126,40 @@ if __name__ == '__main__':
 					prin("F", stateAI, file)
 				nextState = 'Q'
 
+			#Painel
+			if(stateAI == 'P'):
+				print("Procurando painel")
+
+				#Define green
+				lowerBoundGreen=np.array([41,0,214])
+				upperBoundGreen=np.array([95,225,255])
+
+				#Define red
+				lowerBoundRed=np.array([0,52,223])
+				upperBoundRed=np.array([65,251,255])
+
+				arrayTotal = []
+				contsGreen = findButtons(lowerBoundGreen, upperBoundGreen, img, arrayTotal, "L")
+				contsRed = findButtons(lowerBoundRed, upperBoundRed, img, arrayTotal, "D")
+
+				if(len(contsGreen) == 0 and len(contsRed) == 0):
+					print("Nao achou o painel")
+					tries = tries + 1
+					continue
+
+				print("Achou o painel")
+				result = findAll(arrayTotal)
+				prin(result, stateAI, file)
+				nextState = "Q"
+
 			
 			#Parte final para todo caso(trocar de estado e comunicar com o robo)
 			if(tries > 100):
-				return 0
+				sys.end()
 			if(stateAI != nextState):
 				tries = 0
 				stateAI = nextState
 				stateImage += 1
-				if(stateAI != 'Q' and stateAI != 'V'):
+				if(stateAI != 'Q' and stateAI != 'V' and stateAI != 'P'):
 					stateAI = 'Q'
 					nextState = "Q"
